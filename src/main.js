@@ -32,7 +32,7 @@ route('/home', (params) => renderHome(viewEl, params));
 route('/add', (params) => renderAdd(viewEl, params));
 route('/stats', (params) => renderStats(viewEl, params));
 route('/budget', () => renderBudget(viewEl));
-route('/recurring', () => renderRecurring(viewEl));
+route('/recurring', (params) => renderRecurring(viewEl, params));
 route('/accounts', () => renderAccounts(viewEl));
 route('/settings', () => renderSettings(viewEl));
 
