@@ -27,6 +27,9 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        // メモアプリ（/memo/）は独自のService Workerで動くので対象外にする
+        globIgnores: ['memo/**'],
+        navigateFallbackDenylist: [/\/memo\//],
       },
     }),
   ],
