@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
+    <meta name="theme-color" content="#f59e0b" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="メモ" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="icons/icon-192.png" />
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+    <link rel="stylesheet" href="style.css" />
+    <title>メモ</title>
+  </head>
+  <body>
+    <!-- 一覧画面 -->
+    <section id="list-view" class="view">
+      <header class="topbar">
+        <h1>メモ</h1>
+        <button id="menu-btn" class="icon-btn" aria-label="メニュー">⋯</button>
+      </header>
+      <div class="search-wrap">
+        <input id="search" type="search" placeholder="検索" autocomplete="off" />
+      </div>
+      <ul id="memo-list" class="memo-list"></ul>
+      <p id="empty" class="empty hidden">メモはまだありません。<br />右下の＋から書いてみよう。</p>
+      <button id="new-btn" class="fab" aria-label="新しいメモ">＋</button>
+    </section>
+
+    <!-- 編集画面 -->
+    <section id="edit-view" class="view hidden">
+      <header class="topbar">
+        <button id="back-btn" class="icon-btn" aria-label="戻る">‹ 一覧</button>
+        <div class="topbar-actions">
+          <button id="pin-btn" class="icon-btn" aria-label="ピン留め">📌</button>
+          <button id="delete-btn" class="icon-btn" aria-label="削除">🗑</button>
+        </div>
+      </header>
+      <textarea id="editor" placeholder="ここに書く…&#10;（1行目がタイトルになります）"></textarea>
+      <p id="edit-meta" class="edit-meta"></p>
+    </section>
+
+    <!-- メニュー -->
+    <dialog id="menu">
+      <h2>メニュー</h2>
+      <button id="export-btn" class="menu-item">⬇️ バックアップを保存（JSON）</button>
+      <label class="menu-item">⬆️ バックアップから復元<input id="import-input" type="file" accept="application/json,.json" hidden /></label>
+      <button id="install-btn" class="menu-item hidden">📲 ホーム画面に追加</button>
+      <p class="menu-note">メモはこのスマホの中だけに保存されます。機種変更前はバックアップを保存してください。</p>
+      <button id="menu-close" class="menu-close">閉じる</button>
+    </dialog>
+
+    <div id="toast" class="toast hidden"></div>
+    <script src="app.js"></script>
+  </body>
+</html>

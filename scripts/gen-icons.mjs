@@ -98,3 +98,41 @@ writeFileSync(join(outDir, 'icon-512-maskable.png'), makePng(512, 512, coinIcon(
 writeFileSync(join(outDir, 'apple-touch-icon.png'), makePng(180, 180, coinIcon(180, 0.12)));
 
 console.log('Icons generated in', outDir);
+
+// ---- メモアプリ用アイコン（黄色地に白い紙と罫線） ----
+const MEMO_BG = hexToRgb('#f59e0b');
+const memoOutDir = join(__dirname, '..', 'public', 'memo', 'icons');
+mkdirSync(memoOutDir, { recursive: true });
+
+function memoIcon(size, padRatio) {
+  const pad = size * padRatio;
+  const w = (size - pad * 2) * 0.78;
+  const h = size - pad * 2;
+  const left = (size - w) / 2;
+  const top = pad;
+  const radius = w * 0.12;
+  const lineH = h * 0.06;
+  const lineX0 = left + w * 0.18;
+  const lineX1 = left + w * 0.82;
+  const lines = [0.3, 0.48, 0.66].map((r) => top + h * r);
+  return (x, y) => {
+    const inX = x >= left && x <= left + w;
+    const inY = y >= top && y <= top + h;
+    if (!inX || !inY) return [...MEMO_BG, 255];
+    // 角丸
+    const cx = Math.min(Math.max(x, left + radius), left + w - radius);
+    const cy = Math.min(Math.max(y, top + radius), top + h - radius);
+    if ((x - cx) ** 2 + (y - cy) ** 2 > radius ** 2) return [...MEMO_BG, 255];
+    const onLine = lines.some((ly, i) => {
+      const end = i === lines.length - 1 ? lineX0 + (lineX1 - lineX0) * 0.6 : lineX1;
+      return Math.abs(y - ly) <= lineH / 2 && x >= lineX0 && x <= end;
+    });
+    return onLine ? [...MEMO_BG, 255] : [...WHITE, 255];
+  };
+}
+
+writeFileSync(join(memoOutDir, 'icon-192.png'), makePng(192, 192, memoIcon(192, 0.16)));
+writeFileSync(join(memoOutDir, 'icon-512.png'), makePng(512, 512, memoIcon(512, 0.16)));
+writeFileSync(join(memoOutDir, 'icon-512-maskable.png'), makePng(512, 512, memoIcon(512, 0.26)));
+writeFileSync(join(memoOutDir, 'apple-touch-icon.png'), makePng(180, 180, memoIcon(180, 0.16)));
+console.log('Memo icons generated in', memoOutDir);
